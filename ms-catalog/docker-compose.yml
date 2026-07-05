@@ -1,0 +1,39 @@
+services:
+  ms-catalog:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_DATA_MONGODB_HOST: mongodb
+      SPRING_DATA_MONGODB_PORT: "27017"
+      SPRING_DATA_MONGODB_DATABASE: ms_catalog_db
+      JWT_SECRET: YmFzZWNhdGVlcnZlcnNlY3JldHNlY3JldA==
+      JWT_EXPIRATION: "86400000"
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://eureka-server:8762/eureka/
+    depends_on:
+      - mongodb
+      - eureka-server
+
+  mongodb:
+    image: mongo:7.0
+    container_name: ms-catalog-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ms_catalog_mongo_data:/data/db
+
+  eureka-server:
+    build:
+      context: ../eureka-server
+      dockerfile: Dockerfile
+    ports:
+      - "8762:8762"
+    environment:
+      EUREKA_INSTANCE_HOSTNAME: eureka-server
+      SERVER_PORT: 8762
+
+volumes:
+  ms_catalog_mongo_data:

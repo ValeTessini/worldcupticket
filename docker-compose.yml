@@ -1,0 +1,29 @@
+services:
+  postgres-db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: ms_users_db
+    ports:
+      - "5432:5432"
+
+  eureka-server:
+    build: ./eureka-server
+    ports:
+      - "8761:8761"
+
+  ms-users:
+    build: ./ms-users
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres-db
+      - eureka-server
+
+  gateway:
+    build: ./gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server

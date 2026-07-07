@@ -1,6 +1,5 @@
 package com.worldcupticket.ms_catalog.controller;
 
-import java.util.Collections;
 import java.util.Set;
 
 import org.springframework.http.ResponseEntity;

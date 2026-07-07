@@ -1,7 +1,5 @@
 package com.worldcupticket.ms_catalog.security;
 
-import java.util.stream.Collectors;
-
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,6 +1,4 @@
-package com.worldcupticket.ms_users.persistance.entity;
-
-import com.worldcupticket.ms_users.dataType.UserType;
+package com.worldcupticket.ms_users.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

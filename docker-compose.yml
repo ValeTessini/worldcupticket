@@ -20,6 +20,22 @@ services:
     volumes:
       - "mongo-data:/data/db"
 
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:lastest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"
+      - "8025:8025"
 
 volumes:
   mongo-data:

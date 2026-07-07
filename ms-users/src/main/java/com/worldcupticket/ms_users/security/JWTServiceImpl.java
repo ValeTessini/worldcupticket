@@ -8,7 +8,7 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.worldcupticket.ms_users.persistance.entity.User;
+import com.worldcupticket.ms_users.domain.User;
 import com.worldcupticket.ms_users.service.JWTService;
 
 import io.jsonwebtoken.JwtException;
@@ -25,8 +25,8 @@ public class JWTServiceImpl implements JWTService {
     private Long expiration;
 
     @Override
-    public String generateToken(User user) {    
-        return  Jwts.builder()
+    public String generateToken(User user) {
+        return Jwts.builder()
                 .subject(user.getId().toString())
                 .claim("userType", user.getUserType().toString())
                 .issuedAt(new Date())
@@ -39,12 +39,12 @@ public class JWTServiceImpl implements JWTService {
     public boolean validateToken(String token) {
         try {
             Jwts.parser()
-                .verifyWith(getSigningKey())
-                .build()
-                .parseSignedClaims(token);
+                    .verifyWith(getSigningKey())
+                    .build()
+                    .parseSignedClaims(token);
 
             return true;
-        }catch (JwtException e) {
+        } catch (JwtException e) {
             return false;
         }
     }
@@ -72,5 +72,4 @@ public class JWTServiceImpl implements JWTService {
                 .get("userType", String.class);
     }
 
-}   
-
+}

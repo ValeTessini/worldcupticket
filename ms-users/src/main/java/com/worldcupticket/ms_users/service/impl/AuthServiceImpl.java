@@ -7,13 +7,13 @@ import lombok.AllArgsConstructor;
 
 import com.worldcupticket.ms_users.dto.LoginRequestDTO;
 import com.worldcupticket.ms_users.dto.RegisterRequestDTO;
-import com.worldcupticket.ms_users.persistance.entity.User;
-import com.worldcupticket.ms_users.persistance.repository.UserRepository;
+import com.worldcupticket.ms_users.domain.User;
+import com.worldcupticket.ms_users.repository.UserRepository;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.worldcupticket.ms_users.dataType.UserType;
+import com.worldcupticket.ms_users.domain.UserType;
 import com.worldcupticket.ms_users.dto.AuthResponseDTO;
 
 @Service
@@ -26,7 +26,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponseDTO register(RegisterRequestDTO request) {
-        
+
         User user = new User();
         user.setName(request.name());
         user.setLastName(request.lastName());
@@ -41,8 +41,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public AuthResponseDTO login(LoginRequestDTO request) {
-        
-        User user = userRepository.findByEmail(request.email()).orElseThrow(() -> new RuntimeException("User not found"));
+
+        User user = userRepository.findByEmail(request.email())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!isPasswordValid(request.password(), user.getPassword())) {
             throw new RuntimeException("Invalid password");

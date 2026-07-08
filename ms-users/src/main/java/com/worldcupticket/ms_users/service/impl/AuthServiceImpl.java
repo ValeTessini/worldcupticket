@@ -7,13 +7,13 @@ import lombok.AllArgsConstructor;
 
 import com.worldcupticket.ms_users.dto.LoginRequestDTO;
 import com.worldcupticket.ms_users.dto.RegisterRequestDTO;
-import com.worldcupticket.ms_users.persistance.entity.User;
-import com.worldcupticket.ms_users.persistance.repository.UserRepository;
+import com.worldcupticket.ms_users.domain.User;
+import com.worldcupticket.ms_users.repository.UserRepository;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.worldcupticket.ms_users.dataType.UserType;
+import com.worldcupticket.ms_users.enums.UserType;
 import com.worldcupticket.ms_users.dto.AuthResponseDTO;
 
 @Service

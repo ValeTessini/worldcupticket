@@ -1,6 +1,6 @@
 package com.worldcupticket.ms_users.service;
 
-import com.worldcupticket.ms_users.persistance.entity.User;
+import com.worldcupticket.ms_users.domain.User;
 
 public interface JWTService {
 

@@ -8,7 +8,7 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.worldcupticket.ms_users.persistance.entity.User;
+import com.worldcupticket.ms_users.domain.User;
 import com.worldcupticket.ms_users.service.JWTService;
 
 import io.jsonwebtoken.JwtException;

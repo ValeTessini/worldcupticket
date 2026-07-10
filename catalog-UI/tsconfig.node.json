@@ -1,0 +1,15 @@
+//tsconfig.node.json
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "target": "ES2021",
+        "lib": [
+            "ES2021"
+        ],
+        "composite": true
+    },
+    "include": [
+        "vite.config.ts"
+    ]
+}

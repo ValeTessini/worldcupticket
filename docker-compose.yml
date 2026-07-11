@@ -8,6 +8,11 @@ services:
     ports:
       - "5432:5432"
 
+  mongo-db:
+    image: mongo:7.0.28
+    ports:
+      - "27017:27017"
+
   eureka-server:
     build: ./eureka-server
     ports:
@@ -19,6 +24,14 @@ services:
       - "8081:8081"
     depends_on:
       - postgres-db
+      - eureka-server
+
+  ms-catalog:
+    build: ./ms-catalogo
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mongo-db
       - eureka-server
 
   gateway:

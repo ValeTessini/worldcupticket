@@ -1,0 +1,13 @@
+#microservice configuration
+spring.application.name=ms-catalogo
+server.port = 8082
+
+#Database configuration
+
+
+#JWT configuration
+jwt.secret=
+jwt.expiration=86400000
+
+#eureka configuration
+eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/

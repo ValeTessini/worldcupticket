@@ -1,41 +1,51 @@
 services:
-  postgres:
-    container_name: postgres
-    image: postgres:latest
+  postgres-db:
+    image: postgres
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: ms_users_db
     ports:
       - "5432:5432"
-    restart: always
 
-  mongodb:
-    container_name: mongodb
-    image: mongo:latest
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+  mongo-db:
+    image: mongo:7.0.28
     ports:
       - "27017:27017"
-    volumes:
-      - "mongo-data:/data/db"
+
+  eureka-server:
+    build: ./eureka-server
+    ports:
+      - "8761:8761"
+
+  ms-users:
+    build: ./ms-users
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres-db
+      - eureka-server
+
+  ms-catalog:
+    build: ./ms-catalogo
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mongo-db
+      - eureka-server
+
+  gateway:
+    build: ./gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - eureka-server
 
   rabbitmq:
-    container_name: rabbitmq
-    image: rabbitmq:latest
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+    image: rabbitmq:3-management
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
-
-  mailhog:
-    container_name: mailhog
-    image: mailhog/mailhog:latest
     ports:
-      - "1025:1025"
-      - "8025:8025"
-
-volumes:
-  mongo-data:
+      - "5672:5672" # puerto AMQP
+      - "15672:15672" # puerto de management

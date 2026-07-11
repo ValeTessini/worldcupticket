@@ -13,7 +13,7 @@ import com.worldcupticket.ms_users.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.worldcupticket.ms_users.domain.UserType;
+import com.worldcupticket.ms_users.enums.UserType;
 import com.worldcupticket.ms_users.dto.AuthResponseDTO;
 
 @Service

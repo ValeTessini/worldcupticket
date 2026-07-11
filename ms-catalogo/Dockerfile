@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-FROM maven:3.9.9-eclipse-temurin-21 AS build
-WORKDIR /workspace
-
-COPY pom.xml ./
-COPY src ./src
-
-RUN mvn -q -DskipTests package
-
-FROM eclipse-temurin:21-jre
-WORKDIR /app
-COPY --from=build /workspace/target/ms-users-0.0.1-SNAPSHOT.jar app.jar
-
-EXPOSE 8081
-ENTRYPOINT ["java", "-jar", "app.jar"]
-=======
 # ---------- ETAPA 1: build ----------
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 
@@ -32,7 +16,6 @@ WORKDIR /app
 
 COPY --from=build /app/target/*.jar app.jar
 
-EXPOSE 8081
+EXPOSE 8082
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
->>>>>>> 47942369c2baf15c616bc260e3eef7b2255c9046

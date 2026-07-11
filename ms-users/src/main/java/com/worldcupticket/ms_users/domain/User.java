@@ -1,5 +1,7 @@
 package com.worldcupticket.ms_users.domain;
 
+import com.worldcupticket.ms_users.enums.UserType;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

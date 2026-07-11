@@ -1,4 +1,4 @@
-package com.worldcupticket.ms_users.domain;
+package com.worldcupticket.ms_users.enums;
 
 public enum UserType {
 

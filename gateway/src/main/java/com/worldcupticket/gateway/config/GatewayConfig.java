@@ -21,11 +21,19 @@ public class GatewayConfig {
     private final JwtValidationFilter jwtValidationFilter;
 
     @Bean
-    public RouterFunction<ServerResponse> routeFunctionWithFilter() {
+    public RouterFunction<ServerResponse> usersRoute() {
         return RouterFunctions.route()
             .route(RequestPredicates.path("/api/users/**"), http())
             .filter(lb("ms-users"))
             .filter(jwtValidationFilter)
+            .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> catalogRoute() {
+        return RouterFunctions.route()
+            .route(RequestPredicates.path("/api/catalog/**"), http())
+            .filter(lb("ms-catalogo"))
             .build();
     }
 

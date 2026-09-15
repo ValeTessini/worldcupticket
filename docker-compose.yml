@@ -6,7 +6,7 @@ services:
       POSTGRES_USER: admin
       POSTGRES_DB: ms_users_db
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
   mongo-db:
     image: mongo:7.0.28
@@ -16,7 +16,7 @@ services:
   eureka-server:
     build: ./eureka-server
     ports:
-      - "8761:8761"
+      - "8762:8762"
 
   ms-users:
     build: ./ms-users

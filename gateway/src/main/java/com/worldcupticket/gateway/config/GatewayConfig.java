@@ -23,9 +23,26 @@ public class GatewayConfig {
     @Bean
     public RouterFunction<ServerResponse> routeFunctionWithFilter() {
         return RouterFunctions.route()
+            .route(RequestPredicates.path("/api/auth/**"), http())
             .route(RequestPredicates.path("/api/users/**"), http())
             .filter(lb("ms-users"))
             .filter(jwtValidationFilter)
+            .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse>  catalogRoute() {
+        return RouterFunctions.route()
+            .route(RequestPredicates.path("/api/catalog/**"), http())
+            .filter(lb("ms-catalog"))
+            .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse>  salesRoute() {
+        return RouterFunctions.route()
+            .route(RequestPredicates.path("/api/sales/**"), http())
+            .filter(lb("ms-sales"))
             .build();
     }
 

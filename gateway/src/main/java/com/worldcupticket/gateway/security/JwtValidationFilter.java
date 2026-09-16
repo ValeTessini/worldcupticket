@@ -22,7 +22,7 @@ public class JwtValidationFilter implements HandlerFilterFunction<ServerResponse
     public ServerResponse filter(ServerRequest request,HandlerFunction<ServerResponse> next) throws Exception {
 
         String path = request.path();
-        if (path.equals("/api/users/register")||path.equals("/api/users/login")) {
+        if (path.startsWith("/api/auth/") || path.startsWith("/api/catalog/")) {
             return next.handle(request);
         }
 

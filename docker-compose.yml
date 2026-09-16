@@ -27,7 +27,7 @@ services:
       - eureka-server
 
   ms-catalog:
-    build: ./ms-catalogo
+    build: ./ms-catalog
     ports:
       - "8082:8082"
     depends_on:

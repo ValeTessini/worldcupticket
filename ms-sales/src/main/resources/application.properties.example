@@ -1,0 +1,23 @@
+#microservice configuration
+spring.application.name=ms-sales
+server.port=8083
+
+#Database configuration
+spring.datasource.url=jdbc:postgresql:
+spring.datasource.username=admin
+spring.datasource.password=admin
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+#JPA configuration
+spring.jpa.hibernate.ddl-auto= create
+spring.jpa.show-sql= true
+
+#JWT configuration
+jwt.secret=
+jwt.expiration=86400000
+
+#eureka configuration
+eureka.client.service-url.defaultZone=http://eureka-server:8761/eureka/
+
+#Mercado Pago configuration
+mercadopago.access-token=

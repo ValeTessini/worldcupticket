@@ -39,7 +39,8 @@ public class StadiumServiceImpl implements StadiumService {
 	            sector.getName(),
 	            sector.getCapacity(),
 	            sector.getType()
-	        )).toList()
+	        )).toList(),
+	        stadium.getLayout()
 	    );
 	}
 

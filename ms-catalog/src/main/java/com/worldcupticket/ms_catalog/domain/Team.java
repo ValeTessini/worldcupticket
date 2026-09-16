@@ -18,6 +18,7 @@ public class Team {
     @Id
     private String id;
     private String country;
+    /* El campo "flag" de Team guarda el codigo ISO 3166-1 alpha-2 en minuscula */
     private String flag;
     private String group;
 

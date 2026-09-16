@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.worldcupticket.ms_catalog.enums.StadiumLayout;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,5 +25,6 @@ public class Stadium {
     private String city;
     private String country;
     private List<StadiumSector> sectors;
+    private StadiumLayout layout;
 
 }

@@ -24,14 +24,14 @@ public class MatchController {
         return ResponseEntity.ok(matchService.getAllMatches());
     }
 
-    @GetMapping("/group/{group}")
-    public ResponseEntity<List<MatchDTO>> getMatchesByGroup(@PathVariable String group) {
-        return ResponseEntity.ok(matchService.getMatchesByGroup(group));
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<MatchDTO> getMatchById(@PathVariable String id) {
         return ResponseEntity.ok(matchService.getMatchById(id));
+    }
+
+    @GetMapping("/group/{group}")
+    public ResponseEntity<List<MatchDTO>> getMatchesByGroup(@PathVariable String group) {
+        return ResponseEntity.ok(matchService.getMatchesByGroup(group));
     }
 
 }

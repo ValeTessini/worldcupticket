@@ -6,8 +6,6 @@ import com.worldcupticket.ms_users.dto.AuthResponseDTO;
 
 public interface AuthService {
 
-    
-
     public AuthResponseDTO register(RegisterRequestDTO request);
     public AuthResponseDTO login(LoginRequestDTO request);
 

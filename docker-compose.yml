@@ -6,7 +6,7 @@ services:
       POSTGRES_USER: admin
       POSTGRES_DB: ms_users_db
     ports:
-      - "5432:5432"
+      - "5433:5432"
 
   mongo-db:
     image: mongo:7.0.28
@@ -39,6 +39,14 @@ services:
     ports:
       - "8080:8080"
     depends_on:
+      - eureka-server
+
+  ms-sales:
+    build: ./ms-sales
+    ports:
+      - "8083:8083"
+    depends_on:
+      - postgres-db
       - eureka-server
 
   rabbitmq:

@@ -3,6 +3,9 @@ package com.worldcupticket.ms_sales.service.impl;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +14,6 @@ import org.springframework.web.client.RestTemplate;
 import com.worldcupticket.ms_sales.domain.Order;
 import com.worldcupticket.ms_sales.domain.OrderItem;
 import com.worldcupticket.ms_sales.dto.MatchCatalogDTO;
-import com.worldcupticket.ms_sales.dto.MatchSectorCatalogDTO;
 import com.worldcupticket.ms_sales.dto.OrderItemRequestDTO;
 import com.worldcupticket.ms_sales.dto.OrderRequestDTO;
 import com.worldcupticket.ms_sales.dto.OrderResponseDTO;
@@ -36,15 +38,24 @@ public class OrderServiceImpl implements OrderService {
 	@Transactional
 	public OrderResponseDTO createOrder(OrderRequestDTO orderRequestDTO, Long userId) {
 
-		for (OrderItemRequestDTO item : orderRequestDTO.items()) {
-			stockService.reserveStock(orderRequestDTO.matchId(), item.sectorId(), item.quantity());
+		List<OrderItemRequestDTO> cartItems = orderRequestDTO.items();
+		if (cartItems == null || cartItems.isEmpty()) {
+			throw new RuntimeException("Cart is empty");
 		}
 
-	    MatchCatalogDTO matchCatalogDTO = getMatchFromCatalog(orderRequestDTO.matchId());
+		for (OrderItemRequestDTO item : cartItems) {
+			stockService.reserveStock(item.matchId(), item.sectorId(), item.quantity());
+		}
 
-	    Order order = new Order(orderRequestDTO.matchId(), userId, List.of(), Status.PENDING, calculateTotaPrice(orderRequestDTO.items(), matchCatalogDTO.sectorsPrice()));
-	    List<OrderItem> orderItems = orderItemService.buildOrderItems(order, orderRequestDTO.items(), matchCatalogDTO.sectorsPrice());
+		Map<String, MatchCatalogDTO> catalogByMatchId = cartItems.stream()
+			.map(OrderItemRequestDTO::matchId)
+			.distinct()
+			.collect(Collectors.toMap(Function.identity(), this::getMatchFromCatalog));
+
+	    Order order = new Order(userId, List.of(), Status.PENDING, BigDecimal.ZERO);
+	    List<OrderItem> orderItems = orderItemService.buildOrderItems(order, cartItems, catalogByMatchId);
 		order.setItems(orderItems);
+		order.setPrice(calculateTotalPrice(orderItems));
 		order.setExpiresAt(LocalDateTime.now().plusMinutes(15));
 
 	    return OrderResponseDTO.from(orderRepository.save(order));
@@ -92,17 +103,17 @@ public class OrderServiceImpl implements OrderService {
 
 		for (OrderItem item : order.getItems()) {
 
-			stockService.releaseStock(order.getMatchId(), item.getSectorId(), item.getQuantity());
+			stockService.releaseStock(item.getMatchId(), item.getSectorId(), item.getQuantity());
 		}
 
 		order.setStatus(Status.CANCELLED);
 		orderRepository.save(order);
 	}
 
-	private BigDecimal calculateTotaPrice(List<OrderItemRequestDTO> items, List<MatchSectorCatalogDTO> matchSectorCatalogDTOs) {
+	private BigDecimal calculateTotalPrice(List<OrderItem> items) {
 
-	    return  items.stream()
-						.map(item -> orderItemService.calculatePrice(matchSectorCatalogDTOs, item.sectorId(), item.quantity()))
+	    return items.stream()
+						.map(item -> item.getUnitPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
 						.reduce(BigDecimal.ZERO, BigDecimal::add);
 
 	}

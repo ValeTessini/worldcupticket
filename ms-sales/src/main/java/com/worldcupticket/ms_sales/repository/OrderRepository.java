@@ -13,6 +13,7 @@ import com.worldcupticket.ms_sales.enums.Status;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findByUserId(Long userId);
+    List<Order> findByUserIdAndStatus(Long userId, Status status);
     List<Order> findByStatusAndExpiresAtBefore(Status pending, LocalDateTime now);
 
 }

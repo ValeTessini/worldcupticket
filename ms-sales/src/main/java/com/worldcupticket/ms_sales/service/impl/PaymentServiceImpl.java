@@ -56,8 +56,8 @@ public class PaymentServiceImpl implements PaymentService {
 
 	private PreferenceItemRequest toPreferenceItemRequest(OrderItemResponseDTO item) {
 		return PreferenceItemRequest.builder()
-				.id(item.sectorId())
-				.title("Sector " + item.sectorId())
+				.id(item.matchId() + ":" + item.sectorId())
+				.title("Partido " + item.matchId() + " - Sector " + item.sectorId())
 				.quantity(item.quantity())
 				.unitPrice(item.unitPrice())
 				.build();

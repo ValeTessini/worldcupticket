@@ -9,7 +9,6 @@ import com.worldcupticket.ms_sales.enums.Status;
 public record OrderResponseDTO(
     Long id,
     String userId,
-    String matchId,
     List<OrderItemResponseDTO> items,
     Status status,
     BigDecimal totalAmount
@@ -19,9 +18,8 @@ public record OrderResponseDTO(
         return new OrderResponseDTO(
             order.getId(),
             order.getUserId().toString(),
-            order.getMatchId(),
             order.getItems().stream()
-                .map(item -> new OrderItemResponseDTO(item.getSectorId(), item.getQuantity(), item.getUnitPrice()))
+                .map(item -> new OrderItemResponseDTO(item.getMatchId(), item.getSectorId(), item.getQuantity(), item.getUnitPrice()))
                 .toList(),
             order.getStatus(),
             order.getPrice()

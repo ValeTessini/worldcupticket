@@ -29,7 +29,6 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String matchId;
     private Long userId;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> items;
@@ -37,8 +36,7 @@ public class Order {
     private BigDecimal price;
     private LocalDateTime expiresAt;
 
-    public Order(String matchId, Long userId, List<OrderItem> items, Status status, BigDecimal price) {
-        this.matchId = matchId;
+    public Order(Long userId, List<OrderItem> items, Status status, BigDecimal price) {
         this.userId = userId;
         this.items = items;
         this.status = status;
